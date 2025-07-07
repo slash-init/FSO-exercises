@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Display from './components/Display'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
+import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -10,13 +10,21 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+  useEffect(() => {  //Display Backend Data
+    personService
+      .getAll()
+      .then(initialData => {
+        setPersons(initialData)
       })
   }, [])
+  //deletion of data
+  const deleteDataOf = (id, name) => {
+    personService
+      .deletion(id, name)
+      .then(() => {
+        setPersons(persons.filter(person => person.id !== id)) //update ui when a contact is deleted 
+      })
+  }
 
   const handleNameChange = (event) => {
     console.log(event.target.value)
@@ -35,21 +43,40 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    if (persons.some(person => person.name === newName)) {
-      alert(newName + ' is already added to phonebook')
-      return
-    }
     if (newNumber === '') {
       alert('Enter the phone number.')
+      return
+    }
+    else if (isNaN(newNumber)) {
+      alert('Enter a valid phone number. It should only contain numbers.')
       return
     }
     const nameObject = {
       name: newName,
       number: newNumber
     }
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
+    const existingPerson = persons.find(person => person.name === newName)
+    //update mobile no. if person name exists
+    if (existingPerson) {
+      personService
+        .update(existingPerson.id,nameObject)
+        .then(updatedPerson => {
+          setPersons(persons.map(person =>
+            person.id !== existingPerson.id ? person : updatedPerson
+          ))
+          setNewName('')
+          setNewNumber('')
+        })
+    }
+    else {
+      personService //send entered data to backend
+        .create(nameObject)
+        .then(returnedData => {
+          setPersons(persons.concat(returnedData))
+          setNewNumber('')
+          setNewName('')
+        })
+    }
   }
 
   console.log(persons)
@@ -66,7 +93,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Display persons={persons} search={search} />
+      <Display persons={persons} search={search} deleteData={deleteDataOf} />
     </div>
   )
 }

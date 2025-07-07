@@ -1,4 +1,4 @@
-const Display = ({ persons, search }) => {
+const Display = ({ persons = [], search = '', deleteData }) => {
   // If search is empty, show all
   const filteredPersons = search === ''
     ? persons
@@ -11,6 +11,7 @@ const Display = ({ persons, search }) => {
       {filteredPersons.map(person => (
         <div key={person.id ? person.id : person.name}>
           {person.name} {person.number}
+          <button onClick={() => deleteData(person.id, person.name)}>Delete</button>
         </div>
       ))}
     </div>
