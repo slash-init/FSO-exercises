@@ -18,10 +18,12 @@ const Weather = ({ capital }) => {
   return (
     <div>
       <h3>Weather in {capital}</h3>
-      <div>Temperature: {weather.current.temp_c}°C</div>
-      <div>Condition: {weather.current.condition.text}</div>
+      <ul>
+      <li><div>Temperature: {weather.current.temp_c}°C</div></li>
+      <li><div>Condition: {weather.current.condition.text}</div></li>
       <img src={weather.current.condition.icon} alt={weather.current.condition.text} />
-      <div>Wind: {weather.current.wind_kph} kph</div>
+      <li><div>Wind: {weather.current.wind_kph} kph</div></li>
+      </ul>
     </div>
   )
 }
