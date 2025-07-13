@@ -1,6 +1,6 @@
-# Full Stack Open 2025
+# Full Stack Open
 
-This repository contains my solutions for the Full Stack Open 2025 course by the University of Helsinki.
+This repository contains my solutions for the Full Stack Open course by the University of Helsinki.
 
 ## ✅ Part 0 - Fundamentals of Web Apps
 
