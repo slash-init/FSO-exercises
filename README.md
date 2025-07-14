@@ -79,6 +79,19 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
+### ✅ Part 3 - Phonebook Backend (Exercises 3.1 - 3.6)
+
+| Exercise | Description |
+|----------|-------------|
+| 3.1 | Set up a basic Express server and created a `/api/persons` endpoint to return all phonebook entries as JSON. |
+| 3.2 | Added an `/info` endpoint that displays the number of people in the phonebook and the current date/time. |
+| 3.3 | Implemented fetching a single person by id using route parameters (`/api/persons/:id`). |
+| 3.4 | Added the ability to delete a person by id with the DELETE method. |
+| 3.5 | Implemented adding new persons to the phonebook with POST requests, including generating a unique id for each new entry. |
+| 3.6 | Added error handling for missing name/number and prevented duplicate names in the phonebook. |
+
+---
+
 📁 **Each part is inside its own folder** with clear component structure and code.
 
 ➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
