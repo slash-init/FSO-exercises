@@ -1,4 +1,5 @@
 const express = require('express') //importing express
+const morgan = require('morgan') //importing morgan
 const app = express() //creating the instance app which has all the methods and properties like app.get etc..
 
 let persons = [ //array of objects, used let so we can make changes to it
@@ -24,7 +25,15 @@ let persons = [ //array of objects, used let so we can make changes to it
     }
 ]
 
-app.use(express.json()) //enables JSON body parsing
+app.use(express.json())// Middleware to parse incoming JSON requests and populate req.body
+//exercise-3.7
+app.use(morgan(':method :url :status :response-time ms - :body')); //using morgan
+//exercise-3.8
+morgan.token('body',(req)=> {
+    return JSON.stringify(req.body);
+})
+
+
 //exercise-3.1
 app.get('/api/persons', (request, response) => {
     // request: info about what the client asked for

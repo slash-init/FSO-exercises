@@ -89,6 +89,8 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 3.4 | Added the ability to delete a person by id with the DELETE method. |
 | 3.5 | Implemented adding new persons to the phonebook with POST requests, including generating a unique id for each new entry. |
 | 3.6 | Added error handling for missing name/number and prevented duplicate names in the phonebook. |
+| 3.7 | Added HTTP request logging to the backend using the Morgan middleware for better visibility of incoming requests. |
+| 3.8 | Customized Morgan to log the request body for POST requests by defining a custom token. |
 
 ---
 
