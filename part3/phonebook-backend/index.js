@@ -100,7 +100,7 @@ app.post('/api/persons', (request, response) => {
 
 
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => { //sets the server to listen for incoming http requests on port 3001
     console.log(`Server running on port ${PORT}`)
 })
