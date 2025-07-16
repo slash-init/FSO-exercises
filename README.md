@@ -79,7 +79,7 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
-### ✅ Part 3 - Phonebook Backend (Exercises 3.1 - 3.6)
+### ✅ Part 3 - Phonebook Backend
 
 | Exercise | Description |
 |----------|-------------|
@@ -93,7 +93,7 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 3.8 | Customized Morgan to log the request body for POST requests by defining a custom token. |
 | 3.9 | Made the backend work seamlessly with the phonebook frontend by connecting API endpoints and ensuring proper data flow. |
 | 3.10 | Deployed the backend to the internet, making the API accessible remotely. |
-| 3.11 | Generated a production build of the frontend and served it from the backend, making the full application accessible as a single unit.[Live demo](https://the-phonebook-y2f0.onrender.com/) |
+| 3.11 | Generated a production build of the frontend and served it from the backend, making the full application accessible as a single unit. [Live demo](https://the-phonebook-y2f0.onrender.com/) |
 
 ---
 
