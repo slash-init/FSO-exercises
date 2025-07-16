@@ -24,6 +24,8 @@ let persons = [ //array of objects, used let so we can make changes to it
         "number": "39-23-6423122"
     }
 ]
+// Serve static frontend
+app.use(express.static('dist'))
 
 app.use(express.json())// Middleware to parse incoming JSON requests and populate req.body
 //exercise-3.7
@@ -91,13 +93,20 @@ app.post('/api/persons', (request, response) => {
     response.json(person) //response.json(person) is used to send a JavaScript object as a JSON response to the client.
     //always send a response
 })
+//put method for mobile no. updation
+app.put('/api/persons/:id', (request, response)=> {
+    const id = request.params.id
+    const body = request.body
 
+    const person = persons.find(person => person.id === id)
+    if(!person) {
+        return response.status(404).json({error : 'person not found'})
+    }
+    const updatedPerson = {...person, name: body.name, number: body.number}
+    persons = persons.map(person => person.id !== id ? person : updatedPerson)
 
-
-
-
-
-
+    response.json(updatedPerson)
+})
 
 
 const PORT = process.env.PORT || 3001
