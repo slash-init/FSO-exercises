@@ -95,6 +95,8 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 3.10 | Deployed the backend to the internet, making the API accessible remotely. |
 | 3.11 | Generated a production build of the frontend and served it from the backend, making the full application accessible as a single unit. [Live demo](https://the-phonebook-y2f0.onrender.com/) |
 | 3.12 | Set up MongoDB connection with Mongoose, created a command-line interface for adding and viewing phonebook entries directly from the database. |
+| 3.13 | Modified the phonebook backend to fetch all entries from MongoDB instead of hardcoded array data, ensuring frontend integration remains functional. |
+| 3.14 | Updated the POST endpoint to save new phonebook entries directly to the MongoDB database, with Mongoose-specific code organized into separate modules. |
 
 ---
 
