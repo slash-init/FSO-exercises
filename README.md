@@ -97,6 +97,10 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 3.12 | Set up MongoDB connection with Mongoose, created a command-line interface for adding and viewing phonebook entries directly from the database. |
 | 3.13 | Modified the phonebook backend to fetch all entries from MongoDB instead of hardcoded array data, ensuring frontend integration remains functional. |
 | 3.14 | Updated the POST endpoint to save new phonebook entries directly to the MongoDB database, with Mongoose-specific code organized into separate modules. |
+| 3.15 | Implemented database-backed deletion functionality, ensuring that DELETE operations remove entries from MongoDB and maintain frontend compatibility. |
+| 3.16 | Centralized error handling by implementing dedicated error handler middleware to process MongoDB errors like CastError and ValidationError with appropriate HTTP status codes. |
+| 3.17 | Enhanced the PUT endpoint to support updating existing phonebook entries in the database, enabling frontend to seamlessly update phone numbers for existing contacts. |
+| 3.18 | Completed full database integration by updating all remaining routes (GET single person, info endpoint) to use MongoDB, ensuring consistent data persistence across the entire API. |
 
 ---
 
