@@ -1,5 +1,8 @@
+/* stylelint-disable-next-line at-rule-no-unknown */
 @import 'tailwindcss/base';
+/* stylelint-disable-next-line at-rule-no-unknown */
 @import 'tailwindcss/components';
+/* stylelint-disable-next-line at-rule-no-unknown */
 @import 'tailwindcss/utilities';
 
 /* Base styles */
@@ -114,12 +117,32 @@ html {
 }
 
 /* Custom component styles using @layer */
+/* stylelint-disable-next-line at-rule-no-unknown */
 @layer components {
   .btn-primary {
-    @apply bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    background-color: #4f46e5; /* bg-indigo-600 */
+    color: #fff; /* text-white */
+    font-weight: 500; /* font-medium */
+    padding-top: 0.5rem; /* py-2 */
+    padding-bottom: 0.5rem;
+    padding-left: 1rem; /* px-4 */
+    padding-right: 1rem;
+    border-radius: 0.5rem; /* rounded-lg */
+    transition-property: background-color;
+    transition-duration: 200ms; /* duration-200 */
+  }
+  .btn-primary:hover {
+    background-color: #4338ca; /* hover:bg-indigo-700 */
   }
   
   .card {
-    @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px 0 rgba(0,0,0,0.06);
+    border: 1px solid #e5e7eb;
+  }
+  .dark .card {
+    background-color: #1f2937;
+    border: 1px solid #374151;
   }
 }
