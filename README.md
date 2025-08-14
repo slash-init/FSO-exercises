@@ -101,6 +101,9 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 3.16 | Centralized error handling by implementing dedicated error handler middleware to process MongoDB errors like CastError and ValidationError with appropriate HTTP status codes. |
 | 3.17 | Enhanced the PUT endpoint to support updating existing phonebook entries in the database, enabling frontend to seamlessly update phone numbers for existing contacts. |
 | 3.18 | Completed full database integration by updating all remaining routes (GET single person, info endpoint) to use MongoDB, ensuring consistent data persistence across the entire API. |
+| 3.19 | Added Mongoose validation to ensure names are at least three characters long. Updated the frontend to display error messages from the backend when validation fails, using catch blocks and notifications. |
+| 3.20 | Implemented custom validation for phone numbers: numbers must be at least 8 characters, follow the format `XX-XXXXXXX` or `XXX-XXXXXXX`, and only contain digits separated by a single dash. The backend responds with clear error messages and status codes for invalid numbers. |
+| 3.21 | Built a production version of the frontend and served it from the backend. Deployed the backend (including the integrated frontend) to Render, verifying full-stack functionality at the cloud URL. |
 
 ---
 

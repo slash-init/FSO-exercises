@@ -9,6 +9,13 @@ const getAll = () => {
 const create = newObject => {
     const request = axios.post(baseUrl, newObject)
     return request.then(response => response.data)
+    .catch(error => {
+        console.log(error.response.data.error)
+        if (error.response && error.response.data && error.response.data.error) {
+            throw error.response.data.error
+        }
+        throw "An unknown error occured." //using throw bc if used return, itll be treated as a successful response
+    })
 }
 
 const update = (id, newObject) => {

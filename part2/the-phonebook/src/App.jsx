@@ -49,14 +49,14 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    if (newNumber === '') {
-      alert('Enter the phone number.')
-      return
-    }
-    else if (isNaN(newNumber)) {
-      alert('Enter a valid phone number. It should only contain numbers.')
-      return
-    }
+    // if (newNumber === '') {
+    //   alert('Enter the phone number.')
+    //   return
+    // }
+    // else if (isNaN(newNumber)) {
+    //   alert('Enter a valid phone number. It should only contain numbers.')
+    //   return
+    // }
     const nameObject = {
       name: newName,
       number: newNumber
@@ -101,7 +101,8 @@ const App = () => {
           }, 5000)
         })
         .catch(error => {
-          setNotifMessage({text:'Failed to add contact.', type: 'error'})
+          setNotifMessage({ text: error, type: 'error' })
+          console.log(notifMessage)
           setTimeout(() => {
             setNotifMessage(null)
           }, 5000)
