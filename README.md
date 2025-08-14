@@ -104,6 +104,7 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 3.19 | Added Mongoose validation to ensure names are at least three characters long. Updated the frontend to display error messages from the backend when validation fails, using catch blocks and notifications. |
 | 3.20 | Implemented custom validation for phone numbers: numbers must be at least 8 characters, follow the format `XX-XXXXXXX` or `XXX-XXXXXXX`, and only contain digits separated by a single dash. The backend responds with clear error messages and status codes for invalid numbers. |
 | 3.21 | Built a production version of the frontend and served it from the backend. Deployed the backend (including the integrated frontend) to Render, verifying full-stack functionality at the cloud URL. |
+| 3.22 | Added ESLint configuration to the backend for consistent code style and quality. Fixed all stylistic warnings and errors reported by ESLint across the backend codebase. |
 
 ---
 
