@@ -108,6 +108,15 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
+### ✅ Part 4 - Blog List
+
+| Exercise | Description |
+|----------|-------------|
+| 4.1 | Turned the blog list backend into a functioning npm project. Configured development with `node --watch` for automatic restarts. Connected to MongoDB Atlas (or reused previous database). Verified adding and retrieving blogs using Postman or VS Code REST client. |
+| 4.2 | Refactored the application into separate modules for better structure and maintainability, following best practices from the course. Refactored incrementally, testing after each change and committing stable code to make rollbacks easy. Ensured `app.use(express.json())` is included to correctly parse request bodies and avoid issues with `content.body` being undefined. |
+
+---
+
 📁 **Each part is inside its own folder** with clear component structure and code.
 
 ➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
