@@ -114,6 +114,11 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 |----------|-------------|
 | 4.1 | Turned the blog list backend into a functioning npm project. Configured development with `node --watch` for automatic restarts. Connected to MongoDB Atlas (or reused previous database). Verified adding and retrieving blogs using Postman or VS Code REST client. |
 | 4.2 | Refactored the application into separate modules for better structure and maintainability, following best practices from the course. Refactored incrementally, testing after each change and committing stable code to make rollbacks easy. Ensured `app.use(express.json())` is included to correctly parse request bodies and avoid issues with `content.body` being undefined. |
+| 4.3 | Added a dummy helper function and verified the test setup for blog utilities. Ensured the test environment works by checking that the dummy function always returns 1. |
+| 4.4 | Implemented a `totalLikes` helper function to calculate the sum of likes for a list of blogs. Wrote grouped unit tests to verify correct behavior for single and multiple blog lists. |
+| 4.5 | Created a `favoriteBlog` function to find the blog with the most likes. Wrote tests to confirm it returns any blog with the highest likes, handling ties as acceptable. |
+| 4.6 | Developed a `mostBlogs` function using Lodash to determine which author has written the most blogs. Added tests to check correct author and blog count are returned. |
+| 4.7 | Built a `mostLikes` function to find the author whose blogs have the highest total likes, leveraging Lodash for aggregation. Verified with tests that any top author is accepted in case of ties. |
 
 ---
 
