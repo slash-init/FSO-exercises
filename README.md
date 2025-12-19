@@ -119,12 +119,13 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 4.5 | Created a `favoriteBlog` function to find the blog with the most likes. Wrote tests to confirm it returns any blog with the highest likes, handling ties as acceptable. |
 | 4.6 | Developed a `mostBlogs` function using Lodash to determine which author has written the most blogs. Added tests to check correct author and blog count are returned. |
 | 4.7 | Built a `mostLikes` function to find the author whose blogs have the highest total likes, leveraging Lodash for aggregation. Verified with tests that any top author is accepted in case of ties. |
-
 | 4.8 | Set up SuperTest for HTTP testing. Wrote a GET test for `/api/blogs` to verify correct blog count in JSON format. Configured separate test database (TEST_MONGODB_URI). Refactored route handlers to use async/await instead of promises. |
 | 4.9 | Added toJSON schema method to transform MongoDB's `_id` to `id` in API responses. Wrote test to verify the unique identifier is named `id` (not `_id`). |
 | 4.10 | Wrote POST test to verify new blogs are created and count increases. Verified blog content is saved correctly. Refactored POST handler to async/await. |
 | 4.11 | Wrote test to verify `likes` defaults to 0 if missing from request. Updated Blog schema to set default value: `{ type: Number, default: 0 }`. |
 | 4.12 | Wrote tests to verify POST returns 400 Bad Request when `title` or `url` are missing. Made both fields required in schema: `{ type: String, required: true }`. Added error handler middleware to catch ValidationError and respond with 400. |
+| 4.13 | Implemented DELETE `/api/blogs/:id` using async/await to remove a blog. Added tests to verify 204 No Content and that the blog id no longer exists after deletion. |
+| 4.14 | Implemented PUT `/api/blogs/:id` using async/await to update a blog (primarily `likes`). Used `{ new: true, runValidators: true }` to return the updated doc and enforce schema rules. Added tests to verify likes update and full blog update. |
 
 ---
 

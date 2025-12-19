@@ -99,6 +99,67 @@ test('missing url returns 400', async () => {
     .expect(400)
 })
 
+test('a blog can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+
+  const ids = blogsAtEnd.map(b => b.id)
+  assert(!ids.includes(blogToDelete.id))
+})
+
+test('delete nonexistent blog returns 404', async () => {
+  const invalidId = '000000000000000000000000'
+
+  await api
+    .delete(`/api/blogs/${invalidId}`)
+    .expect(204)  // MongoDB returns 204 for nonexistent IDs
+})
+
+test('likes can be updated', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const updatedBlog = {
+    likes: 999
+  }
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(response.body.likes, 999)
+  assert.strictEqual(response.body.id, blogToUpdate.id)
+})
+
+test('entire blog can be updated', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const updated = {
+    title: 'Updated Title',
+    author: 'Updated Author',
+    url: 'https://updated.com',
+    likes: 50
+  }
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updated)
+    .expect(200)
+
+  assert.strictEqual(response.body.title, 'Updated Title')
+  assert.strictEqual(response.body.likes, 50)
+})
+
 after(async () => {
   await mongoose.connection.close()
 })
