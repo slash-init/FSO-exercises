@@ -1,26 +1,20 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const blogsRouter = require('./controllers/blogs')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
+const middleware = require('./utils/middleware')
+
 
 mongoose.set('strictQuery', false)
 
 const app = express()
 app.use(express.json())
+app.use(middleware.tokenExtractor)
 app.use('/api/blogs', blogsRouter)
-
+app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 // Error handler (must be last)
-app.use((error, request, response, next) => {
-  console.error(error.message)
-  
-  if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message })
-  }
-  
-  if (error.name === 'CastError') {
-    return response.status(400).json({ error: 'malformed id' })
-  }
-  
-  response.status(500).json({ error: error.message })
-})
+app.use(middleware.errorHandler)
 
 module.exports = app

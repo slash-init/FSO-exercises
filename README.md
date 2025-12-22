@@ -126,6 +126,15 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 4.12 | Wrote tests to verify POST returns 400 Bad Request when `title` or `url` are missing. Made both fields required in schema: `{ type: String, required: true }`. Added error handler middleware to catch ValidationError and respond with 400. |
 | 4.13 | Implemented DELETE `/api/blogs/:id` using async/await to remove a blog. Added tests to verify 204 No Content and that the blog id no longer exists after deletion. |
 | 4.14 | Implemented PUT `/api/blogs/:id` using async/await to update a blog (primarily `likes`). Used `{ new: true, runValidators: true }` to return the updated doc and enforce schema rules. Added tests to verify likes update and full blog update. |
+| 4.15 | Added user management: created users via `POST /api/users` with `username`, `name`, and `password`. Stored only `passwordHash` using `bcrypt`. Implemented `GET /api/users` to list users. |
+| 4.16* | Enforced user creation rules: `username` and `password` required, both ≥ 3 chars; `username` unique. Validated `password` in controller, not via Mongoose. Wrote tests ensuring invalid users return 400 with clear errors. |
+| 4.17 | Expanded blogs with creator info: saved `blog.user` referencing the creator and used `populate('user', { username, name })` in blog listing. Also populated `users` with their `blogs`. Initially designated any existing user as creator. |
+| 4.18 | Implemented token-based authentication: login issues JWT signed with `SECRET`; clients send `Authorization: Bearer <token>`. Verified tokens with `jwt.verify` during protected actions. |
+| 4.19 | Required a valid token to create blogs. Used the token’s user id as the creator when saving the new blog. |
+| 4.20* | Refactored token extraction to middleware: `tokenExtractor` reads `Authorization` and assigns `request.token`. Registered before routers so handlers can access `request.token`. |
+| 4.21* | Restricted deletion to owner-only: DELETE checks that the requester’s user id (from token) matches `blog.user`. Returned 401 on missing/invalid token and 403 when not the owner. Compared ids with `.toString()` or `equals`. |
+| 4.22* | Added `userExtractor` middleware: decodes JWT, fetches the `User`, and attaches `request.user`. Applied selectively to `POST /api/blogs` and `DELETE /api/blogs/:id` so GET remains public. Handlers read `request.user` directly. |
+| 4.23* | Fixed tests after auth: updated POST tests to include a valid Bearer token and added a new test verifying 401 Unauthorized when no token is provided. Centralized a `getAuthToken` helper in test utilities. |
 
 ---
 

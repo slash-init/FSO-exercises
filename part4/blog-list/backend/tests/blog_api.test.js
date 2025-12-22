@@ -7,6 +7,8 @@ const helper = require('./test_helper')
 const Blog = require('../models/blog')
 const config = require('../utils/config')  
 const api = supertest(app)
+const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 before(async () => {
   await mongoose.connect(config.MONGODB_URI)
@@ -15,6 +17,14 @@ before(async () => {
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
+})
+
+// Ensure a known users state for user-related tests
+beforeEach(async () => {
+  await User.deleteMany({})
+  const passwordHash = await bcrypt.hash('sekret', 10)
+  const user = new User({ username: 'root', name: 'Superuser', passwordHash })
+  await user.save()
 })
 
 test('blogs are returned as json', async () => {
@@ -37,6 +47,7 @@ test('blog has id property (not _id)', async () => {
 })
 
 test('a valid blog can be added', async () => {
+  const token = await helper.getAuthToken(api)
   const newBlog = {
     title: 'Async patterns in Node',
     author: 'Dan Abramov',
@@ -46,6 +57,7 @@ test('a valid blog can be added', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
@@ -58,6 +70,7 @@ test('a valid blog can be added', async () => {
 })
 
 test('likes defaults to 0 if missing', async () => {
+  const token = await helper.getAuthToken(api)
   const newBlog = {
     title: 'Blog without likes',
     author: 'Test Author',
@@ -67,6 +80,7 @@ test('likes defaults to 0 if missing', async () => {
 
   const response = await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(201)
 
@@ -74,6 +88,7 @@ test('likes defaults to 0 if missing', async () => {
 })
 
 test('missing title returns 400', async () => {
+  const token = await helper.getAuthToken(api)
   const newBlog = {
     author: 'Test Author',
     url: 'https://example.com',
@@ -82,11 +97,13 @@ test('missing title returns 400', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(400)
 })
 
 test('missing url returns 400', async () => {
+  const token = await helper.getAuthToken(api)
   const newBlog = {
     title: 'Blog without url',
     author: 'Test Author',
@@ -95,16 +112,39 @@ test('missing url returns 400', async () => {
 
   await api
     .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
     .send(newBlog)
     .expect(400)
 })
 
+test('adding a blog without token returns 401 and does not change DB', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+
+  const newBlog = {
+    title: 'No Auth Blog',
+    author: 'No Auth',
+    url: 'https://noauth.example.com',
+    likes: 1
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, blogsAtStart.length)
+})
+
 test('a blog can be deleted', async () => {
+  const token = await helper.getAuthToken(api)
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
 
   await api
     .delete(`/api/blogs/${blogToDelete.id}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(204)
 
   const blogsAtEnd = await helper.blogsInDb()
@@ -115,10 +155,12 @@ test('a blog can be deleted', async () => {
 })
 
 test('delete nonexistent blog returns 404', async () => {
+  const token = await helper.getAuthToken()
   const invalidId = '000000000000000000000000'
 
   await api
     .delete(`/api/blogs/${invalidId}`)
+    .set('Authorization', `Bearer ${token}`)
     .expect(204)  // MongoDB returns 204 for nonexistent IDs
 })
 
@@ -162,4 +204,68 @@ test('entire blog can be updated', async () => {
 
 after(async () => {
   await mongoose.connection.close()
+})
+
+// User validation tests
+test('user creation fails with 400 if username is shorter than 3 chars', async () => {
+  const usersAtStart = await User.find({})
+
+  const newUser = {
+    username: 'ab',
+    name: 'Short Name',
+    password: 'strongpassword'
+  }
+
+  const res = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+  // Mongoose ValidationError message should mention minlength/validation
+  assert.match(res.body.error, /(shorter than the minimum allowed length|minlength|validation)/i)
+
+  const usersAtEnd = await User.find({})
+  assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+})
+
+test('user creation fails with 400 if username is missing', async () => {
+  const usersAtStart = await User.find({})
+
+  const newUser = {
+    name: 'No Username',
+    password: 'strongpassword'
+  }
+
+  const res = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+  assert.match(res.body.error, /(username|required)/i)
+
+  const usersAtEnd = await User.find({})
+  assert.strictEqual(usersAtEnd.length, usersAtStart.length)
+})
+
+test('user creation fails with 400 if username is not unique', async () => {
+  const usersAtStart = await User.find({})
+
+  const newUser = {
+    username: 'root', // already created in beforeEach
+    name: 'Duplicate',
+    password: 'anothersecret'
+  }
+
+  const res = await api
+    .post('/api/users')
+    .send(newUser)
+    .expect(400)
+    .expect('Content-Type', /application\/json/)
+
+  assert.match(res.body.error, /(unique|duplicate|already)/i)
+
+  const usersAtEnd = await User.find({})
+  assert.strictEqual(usersAtEnd.length, usersAtStart.length)
 })

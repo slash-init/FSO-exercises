@@ -1,3 +1,5 @@
+const supertest = require('supertest')
+const app = require('../app')
 const Blog = require('../models/blog')
 
 const initialBlogs = [
@@ -10,4 +12,14 @@ const blogsInDb = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
-module.exports = { initialBlogs, blogsInDb }
+// Obtain a valid JWT by logging in with the seeded user
+const getAuthToken = async (api) => {
+  const client = api || supertest(app)
+  const res = await client
+    .post('/api/login')
+    .send({ username: 'root', password: 'sekret' })
+    .expect(200)
+  return res.body.token
+}
+
+module.exports = { initialBlogs, blogsInDb, getAuthToken }
