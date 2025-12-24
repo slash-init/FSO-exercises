@@ -79,7 +79,7 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
-### ✅ Part 3 - Phonebook Backend
+### ✅ Part 3 - Programming a server with NodeJS and Express
 
 | Exercise | Description |
 |----------|-------------|
@@ -108,7 +108,7 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
-### ✅ Part 4 - Blog List
+### ✅ Part 4 - Testing Express servers, user administration
 
 | Exercise | Description |
 |----------|-------------|
