@@ -138,6 +138,19 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
+### ✅ Part 5 - Testing React Apps
+
+#### 5.1 - 5.4: Blog List Frontend
+
+| Exercise | Description |
+|----------|-------------|
+| 5.1 | Implemented login functionality with conditional rendering. Login form displays when user is not logged in; blog list displays when authenticated. Token from successful login is saved to application state (`user`). Uses state management with `useState` hook. |
+| 5.2 | Made login persistent using browser's local storage (`localStorage`). User details are automatically restored on page refresh. Implemented logout functionality that clears user state and removes credentials from local storage. |
+| 5.3 | Expanded the application to allow logged-in users to add new blogs via a form. Form includes fields for title, author, and URL. New blogs are sent to backend and added to the blog list after successful creation. |
+| 5.4 | Implemented toast-style notifications for user feedback. Notifications display at the top of the page for successful operations (e.g., "A new blog added") and failed operations (e.g., "Failed to add blog"). Notifications auto-dismiss after 5 seconds using `setTimeout`. |
+
+---
+
 📁 **Each part is inside its own folder** with clear component structure and code.
 
 ➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
