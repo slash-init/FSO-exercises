@@ -148,6 +148,13 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 5.2 | Made login persistent using browser's local storage (`localStorage`). User details are automatically restored on page refresh. Implemented logout functionality that clears user state and removes credentials from local storage. |
 | 5.3 | Expanded the application to allow logged-in users to add new blogs via a form. Form includes fields for title, author, and URL. New blogs are sent to backend and added to the blog list after successful creation. |
 | 5.4 | Implemented toast-style notifications for user feedback. Notifications display at the top of the page for successful operations (e.g., "A new blog added") and failed operations (e.g., "Failed to add blog"). Notifications auto-dismiss after 5 seconds using `setTimeout`. |
+| 5.5 | Show the blog creation form only when appropriate: hide it by default and toggle visibility (e.g. with `Togglable`). Show on "create new blog" and hide after creation or cancel. |
+| 5.6 | Move the blog creation form into a `BlogForm` component. Keep all form state (controlled inputs) inside that component and pass the created blog to the parent via a callback prop. |
+| 5.7 | Add per-blog visibility state inside `Blog` to toggle full details (url, likes, user) with a "view" / "hide" button. Use inline styles for layout. |
+| 5.8 | Implement the like button: increase likes by sending a PUT to `/api/blogs/:id`. Because the backend replaces the resource, include `{ user: <userId>, likes, author, title, url }` in the request and update client state with the response. |
+| 5.9 | Fix missing user info after liking by returning the updated blog with populated `user` from the backend (use `.populate('user', { username:1, name:1 })`) or make the frontend handle both id and populated user forms. |
+| 5.10 | Sort blogs by likes before rendering: use `[...blogs].sort((a,b) => b.likes - a.likes).map(...)` to show most liked first and avoid mutating state by copying the array. |
+| 5.11 | Add blog deletion: show a "remove" button only to the blog owner, confirm with `window.confirm`, call DELETE with the auth token, and remove the blog from state on success. |
 
 ---
 

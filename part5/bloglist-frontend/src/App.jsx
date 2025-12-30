@@ -48,13 +48,22 @@ const App = () => {
   }
 
   const updateBlog = async (id, updatedBlog) => {
-  try {
-    const returnedBlog = await blogService.update(id, updatedBlog)
-    setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-  } catch (error) {
-    console.error('Error updating blog:', error)
+    try {
+      const returnedBlog = await blogService.update(id, updatedBlog)
+      setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+    } catch (error) {
+      console.error('Error updating blog:', error)
+    }
   }
-}
+
+  const removeBlog = async (id) => {
+    try {
+      await blogService.remove(id)
+      setBlogs(blogs.filter(blog => blog.id !== id))
+    } catch (err) {
+      console.error('Error removing blog: ', err)
+    }
+  }
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -126,8 +135,10 @@ const App = () => {
           </Togglable>
 
 
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
+          {blogs
+          .sort((a,b) => b.likes - a.likes)
+          .map(blog =>
+            <Blog key={blog.id} blog={blog} updateBlog={updateBlog} removeBlog={removeBlog} user={user}/>
           )}
         </div>
       )}

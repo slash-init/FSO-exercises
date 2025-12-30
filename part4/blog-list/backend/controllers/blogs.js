@@ -3,6 +3,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const middleware = require('../utils/middleware')
+const { request } = require('express')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -75,6 +76,31 @@ blogsRouter.put('/:id', async (request, response, next) => {
   }
   catch (error) {
     next(error)
+  }
+})
+
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
+  try {
+    const user = request.user
+    if (!user) {
+      return response.status(401).json({ error: 'token missing or invalid' })
+    }
+
+    const blog = await Blog.findById(request.params.id)
+    if (!blog) {
+      return response.status(204).end()  // Already deleted or never existed
+    }
+
+    if (blog.user.toString() !== user.id.toString()) {
+      return response.status(403).json({ error: 'only creator can delete' })
+    }
+
+    await Blog.findByIdAndDelete(request.params.id)
+
+    response.status(204).end()
+    
+  } catch (error) {
+    next(error) 
   }
 })
 
