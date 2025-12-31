@@ -155,6 +155,7 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 5.9 | Fix missing user info after liking by returning the updated blog with populated `user` from the backend (use `.populate('user', { username:1, name:1 })`) or make the frontend handle both id and populated user forms. |
 | 5.10 | Sort blogs by likes before rendering: use `[...blogs].sort((a,b) => b.likes - a.likes).map(...)` to show most liked first and avoid mutating state by copying the array. |
 | 5.11 | Add blog deletion: show a "remove" button only to the blog owner, confirm with `window.confirm`, call DELETE with the auth token, and remove the blog from state on success. |
+| 5.12 | Add ESLint to the project and define configuration in `eslint.config.js`. Fix all linter errors, install necessary ESLint packages (e.g. `eslint`, `@eslint/js`, `eslint-plugin-react`, `eslint-plugin-react-hooks`), and add `lint`/`lint:fix` npm scripts. |
 
 ---
 
