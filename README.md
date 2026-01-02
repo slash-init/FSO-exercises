@@ -156,10 +156,15 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 5.10 | Sort blogs by likes before rendering: use `[...blogs].sort((a,b) => b.likes - a.likes).map(...)` to show most liked first and avoid mutating state by copying the array. |
 | 5.11 | Add blog deletion: show a "remove" button only to the blog owner, confirm with `window.confirm`, call DELETE with the auth token, and remove the blog from state on success. |
 | 5.12 | Add ESLint to the project and define configuration in `eslint.config.js`. Fix all linter errors, install necessary ESLint packages (e.g. `eslint`, `@eslint/js`, `eslint-plugin-react`, `eslint-plugin-react-hooks`), and add `lint`/`lint:fix` npm scripts. |
+| 5.13 | Component tests for the `Blog` component: verify title and author are shown by default and that URL and likes are hidden. Added CSS classes to `Blog` to support testing (`blog`, `blogSummary`, `blogDetails`, `blogUrl`, `blogLikes`). |
+| 5.14 | Test that clicking the `view` button reveals the blog's URL and number of likes. |
+| 5.15 | Test that clicking the `like` button twice calls the provided update handler twice (use `vi.fn()` to mock the handler). |
+| 5.16 | Test for the `BlogForm` component: ensure the `createBlog` handler is called with the correct title, author and url when the form is submitted. |
 
 ---
 
 📁 **Each part is inside its own folder** with clear component structure and code.
+
 
 ➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
 
