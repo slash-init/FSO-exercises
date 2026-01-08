@@ -160,6 +160,13 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 5.14 | Test that clicking the `view` button reveals the blog's URL and number of likes. |
 | 5.15 | Test that clicking the `like` button twice calls the provided update handler twice (use `vi.fn()` to mock the handler). |
 | 5.16 | Test for the `BlogForm` component: ensure the `createBlog` handler is called with the correct title, author and url when the form is submitted. |
+| 5.17 | Created a new npm project for E2E tests and configured Playwright. Implemented test to verify the application displays the login form by default with proper imports (`test`, `expect`, `beforeEach`, `describe`). |
+| 5.18 | Added login tests for both successful and failed login attempts. Implemented `beforeEach` block to reset the database via `/api/testing/reset` endpoint and create test user. Used `request` fixture to make API calls for setup. |
+| 5.19 | Created test to verify logged-in user can create a new blog. Implemented nested describe block "When logged in" with `beforeEach` for login. Test ensures created blog appears in the blog list. |
+| 5.20 | Implemented test to verify blog can be liked. Test clicks "view" button to expand blog details, clicks "like" button, and verifies the like count increases by checking the updated likes display. |
+| 5.21 | Added test ensuring user who created blog can delete it. Implemented `page.on('dialog')` listener to handle `window.confirm` dialog by accepting it automatically. Verified blog disappears from list after deletion. |
+| 5.22 | Created test verifying only blog creator sees delete button. Logged out first user, created and logged in second user via API, verified remove button is not visible for blogs created by other users. |
+| 5.23 | Implemented test ensuring blogs are ordered by likes in descending order. Created multiple blogs with different like counts, used specific blog locators with `hasText` filter, waited for like updates with `expect(...).toBeVisible()`, and verified proper ordering after likes. |
 
 ---
 
