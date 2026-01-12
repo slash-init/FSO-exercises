@@ -140,8 +140,6 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ### ✅ Part 5 - Testing React Apps
 
-#### 5.1 - 5.4: Blog List Frontend
-
 | Exercise | Description |
 |----------|-------------|
 | 5.1 | Implemented login functionality with conditional rendering. Login form displays when user is not logged in; blog list displays when authenticated. Token from successful login is saved to application state (`user`). Uses state management with `useState` hook. |
@@ -174,4 +172,14 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 
 ➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
+
+---
+
+## ✅ Part 6 - State Management with Redux
+
+| Exercise | Description |
+|----------|-------------|
+| 6.1 | Implemented `counterReducer` to store feedback counts in Redux state: `{ good, ok, bad }`. Handled actions `GOOD`, `OK`, `BAD`, and `RESET`. Added unit tests using `vitest` and `deep-freeze` to ensure immutability and correct behavior. |
+| 6.2 | Connected the Redux store to a simple UI. Implemented `main.jsx` to create the store, dispatch actions from buttons, and subscribe to re-renders. The UI shows buttons for `good`, `ok`, `bad`, and a reset button, and displays current counts. |
+
 
