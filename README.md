@@ -181,5 +181,11 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 |----------|-------------|
 | 6.1 | Implemented `counterReducer` to store feedback counts in Redux state: `{ good, ok, bad }`. Handled actions `GOOD`, `OK`, `BAD`, and `RESET`. Added unit tests using `vitest` and `deep-freeze` to ensure immutability and correct behavior. |
 | 6.2 | Connected the Redux store to a simple UI. Implemented `main.jsx` to create the store, dispatch actions from buttons, and subscribe to re-renders. The UI shows buttons for `good`, `ok`, `bad`, and a reset button, and displays current counts. |
+| 6.3 | Implemented voting for anecdotes: added `vote` action creator and reducer logic to increment an anecdote's `votes` in the Redux store. UI dispatches the `vote` action when the vote button is clicked. |
+| 6.4 | Implemented adding new anecdotes: added `createAnecdote` action creator and reducer handling for `NEW_ANECDOTE`. The UI form dispatches `createAnecdote(content)` (uncontrolled form) and clears the input after submission. |
+| 6.5 | Ensured anecdotes are ordered by votes: the list is sorted descending by `votes` before rendering so the most-voted anecdotes appear first. |
+| 6.6 | Moved action creators into `src/reducers/anecdoteReducer.js`: both `vote` and `createAnecdote` return FSA-style actions (`{ type, payload }`) and are imported where used. |
+| 6.7 | Extracted creation logic into `AnecdoteForm` component: created `src/components/AnecdoteForm.jsx` which contains the uncontrolled form, prevents default submit, reads the input value and dispatches `createAnecdote`. |
+| 6.8 | Extracted list and voting UI into `AnecdoteList` component: created `src/components/AnecdoteList.jsx` which selects, sorts, renders anecdotes and dispatches `vote` on item clicks. |
 
 
