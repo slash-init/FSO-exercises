@@ -187,5 +187,6 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 6.6 | Moved action creators into `src/reducers/anecdoteReducer.js`: both `vote` and `createAnecdote` return FSA-style actions (`{ type, payload }`) and are imported where used. |
 | 6.7 | Extracted creation logic into `AnecdoteForm` component: created `src/components/AnecdoteForm.jsx` which contains the uncontrolled form, prevents default submit, reads the input value and dispatches `createAnecdote`. |
 | 6.8 | Extracted list and voting UI into `AnecdoteList` component: created `src/components/AnecdoteList.jsx` which selects, sorts, renders anecdotes and dispatches `vote` on item clicks. |
+| 6.9 | Implemented filtering for anecdotes: added `filter` reducer and `setFilter` action, `Filter` component dispatches filter changes to Redux, and the list component reads `state.filter` to display a case-insensitive filtered and sorted anecdotes list. |
 
 
