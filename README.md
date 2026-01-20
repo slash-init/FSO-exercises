@@ -188,5 +188,10 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 6.7 | Extracted creation logic into `AnecdoteForm` component: created `src/components/AnecdoteForm.jsx` which contains the uncontrolled form, prevents default submit, reads the input value and dispatches `createAnecdote`. |
 | 6.8 | Extracted list and voting UI into `AnecdoteList` component: created `src/components/AnecdoteList.jsx` which selects, sorts, renders anecdotes and dispatches `vote` on item clicks. |
 | 6.9 | Implemented filtering for anecdotes: added `filter` reducer and `setFilter` action, `Filter` component dispatches filter changes to Redux, and the list component reads `state.filter` to display a case-insensitive filtered and sorted anecdotes list. |
+| 6.10 | Installed Redux Toolkit (`@reduxjs/toolkit`). Migrated store creation to use `configureStore` from Redux Toolkit in `store.js`. Converted `filterReducer` to use `createSlice` function, eliminating manual action type strings and switch statements. Redux DevTools automatically enabled by `configureStore`. |
+| 6.11 | Converted `anecdoteReducer` to use Redux Toolkit's `createSlice`. Simplified reducer logic by leveraging Immer for direct state mutations (`state.push()`, `anecdote.votes += 1`). Action creators (`createAnecdote`, `vote`) are auto-generated from reducer names. |
+| 6.12 | Created `notificationReducer` using `createSlice` to manage notification messages in Redux state. Connected `Notification` component to Redux store using `useSelector` hook to display messages. Component renders notification with styled border, or returns `null` when empty. |
+| 6.13 | Implemented timed notifications: when user votes or creates an anecdote, a notification message appears for 5 seconds then clears automatically. Used `setNotification` and `clearNotification` actions with `setTimeout` to dispatch clearing action after 5000ms. Messages display format: "you voted 'anecdote'" and "you created 'anecdote'". |
 
+---
 
