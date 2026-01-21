@@ -168,13 +168,6 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 
 ---
 
-📁 **Each part is inside its own folder** with clear component structure and code.
-
-
-➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
-
----
-
 ## ✅ Part 6 - State Management with Redux
 
 | Exercise | Description |
@@ -192,6 +185,14 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 6.11 | Converted `anecdoteReducer` to use Redux Toolkit's `createSlice`. Simplified reducer logic by leveraging Immer for direct state mutations (`state.push()`, `anecdote.votes += 1`). Action creators (`createAnecdote`, `vote`) are auto-generated from reducer names. |
 | 6.12 | Created `notificationReducer` using `createSlice` to manage notification messages in Redux state. Connected `Notification` component to Redux store using `useSelector` hook to display messages. Component renders notification with styled border, or returns `null` when empty. |
 | 6.13 | Implemented timed notifications: when user votes or creates an anecdote, a notification message appears for 5 seconds then clears automatically. Used `setNotification` and `clearNotification` actions with `setTimeout` to dispatch clearing action after 5000ms. Messages display format: "you voted 'anecdote'" and "you created 'anecdote'". |
+| 6.14 | Fetched anecdotes from a `json-server` backend on application startup using the Fetch API (`anecdoteService.getAll()`), then loaded them into Redux state with `setAnecdotes`. |
+| 6.15 | Persisted new anecdotes to the backend using Fetch POST (`anecdoteService.createNew(content)`) and updated Redux state with the anecdote object returned by the server. |
+
+---
+📁 **Each part is inside its own folder** with clear component structure and code.
+
+
+➡️ This work is part of the [Full Stack Open](https://fullstackopen.com/en) course.
 
 ---
 
