@@ -187,6 +187,10 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 6.13 | Implemented timed notifications: when user votes or creates an anecdote, a notification message appears for 5 seconds then clears automatically. Used `setNotification` and `clearNotification` actions with `setTimeout` to dispatch clearing action after 5000ms. Messages display format: "you voted 'anecdote'" and "you created 'anecdote'". |
 | 6.14 | Fetched anecdotes from a `json-server` backend on application startup using the Fetch API (`anecdoteService.getAll()`), then loaded them into Redux state with `setAnecdotes`. |
 | 6.15 | Persisted new anecdotes to the backend using Fetch POST (`anecdoteService.createNew(content)`) and updated Redux state with the anecdote object returned by the server. |
+| 6.16 | Initialized anecdotes via an async thunk that fetches from the backend and dispatches `setAnecdotes` on app load. |
+| 6.17 | Created anecdotes through an async thunk that posts to the backend and appends the returned anecdote to Redux state. |
+| 6.18 | Persisted voting by calling the backend with an async thunk and updating state with the saved anecdote. |
+| 6.19 | Added a timed notification thunk that accepts a message and duration (seconds), auto-clearing after the delay; integrated it for voting and creation flows. |
 
 ---
 📁 **Each part is inside its own folder** with clear component structure and code.
