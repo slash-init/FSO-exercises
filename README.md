@@ -191,6 +191,9 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 6.17 | Created anecdotes through an async thunk that posts to the backend and appends the returned anecdote to Redux state. |
 | 6.18 | Persisted voting by calling the backend with an async thunk and updating state with the saved anecdote. |
 | 6.19 | Added a timed notification thunk that accepts a message and duration (seconds), auto-clearing after the delay; integrated it for voting and creation flows. |
+| 6.20 | Rebuilt anecdotes with React Query: fetches anecdotes with `useQuery`, shows loading state, and renders an error page when the service is unavailable. |
+| 6.21 | Added React Query mutation to post new anecdotes (Fetch API); on success updates the cache so the new anecdote appears immediately. |
+| 6.22 | Implemented voting via React Query mutation; persisted votes to the server and updated the cached list so vote counts refresh automatically. |
 
 ---
 📁 **Each part is inside its own folder** with clear component structure and code.
