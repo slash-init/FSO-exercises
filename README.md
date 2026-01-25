@@ -194,6 +194,8 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 6.20 | Rebuilt anecdotes with React Query: fetches anecdotes with `useQuery`, shows loading state, and renders an error page when the service is unavailable. |
 | 6.21 | Added React Query mutation to post new anecdotes (Fetch API); on success updates the cache so the new anecdote appears immediately. |
 | 6.22 | Implemented voting via React Query mutation; persisted votes to the server and updated the cached list so vote counts refresh automatically. |
+| 6.23 | Implemented notification state management using `useReducer` hook and context; notifications display for five seconds when anecdotes are created or voted on. |
+| 6.24 | Added error handling for POST requests; displays error notifications when content validation fails (must be ≥5 characters). |
 
 ---
 📁 **Each part is inside its own folder** with clear component structure and code.
