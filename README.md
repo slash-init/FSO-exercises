@@ -206,6 +206,11 @@ This repository contains my solutions for the Full Stack Open course by the Univ
 | 7.1 | Added React Router to the application with routes for home, create new, and about pages. Menu uses Link components for navigation. Footer stays visible at bottom across all routes. |
 | 7.2 | Implemented single anecdote view using route parameters (`:id`). Used `useParams` hook to extract id and display individual anecdote details. AnecdoteList links to detail pages. |
 | 7.3 | Improved create form with automatic navigation to home after submission using `useNavigate`. Added success notification that displays for 5 seconds and auto-dismisses. |
+| 7.4 | Created `useField` custom hook to simplify form input management. Moved hook to `/src/hooks/index.js` using named exports. Hook returns type, value, and onChange properties for spreading into inputs. |
+| 7.5 | Added reset button to clear all form fields. Extended `useField` hook with reset function to clear field values. Button uses `type="button"` to prevent form submission. |
+| 7.6 | Fixed "Invalid value for prop reset" warning by restructuring hook return. Modified `useField` to separate input props from reset function, preventing reset from being spread as invalid HTML attribute. |
+| 7.7 | Implemented `useCountry` custom hook to fetch country details from REST API. Used `useEffect` with dependency array to control API calls. Hook returns object with `found` status and country data, handling both successful and failed requests. |
+| 7.8 | Created `useResource` hook to abstract backend communication. Hook fetches all resources on mount using `useEffect` and provides `create` method for POST requests. Returns array with resources and service object, making it reusable for different REST endpoints. |
 
 ---
 📁 **Each part is inside its own folder** with clear component structure and code.
