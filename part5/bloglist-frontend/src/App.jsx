@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import User from './components/User'
+import Users from './components/Users'
 import {
   initializeBlogs,
   createBlog,
@@ -14,6 +17,7 @@ import {
 } from './reducers/blogReducer'
 import { showNotification } from './reducers/notificationReducer'
 import { setUser, clearUser } from './reducers/userReducer'
+import { initializeUsers } from './reducers/usersReducer'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -23,6 +27,7 @@ const App = () => {
   const [username, setUsername] = useState('')
 
   useEffect(() => {
+    dispatch(initializeUsers())
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
@@ -117,43 +122,57 @@ const App = () => {
     </form>
   )
 
-  return (
+  const blogsPage = (
     <div>
-      <Notification />
+      <h2>blog app</h2>
 
-      {!user && (
-        <div>
-          <h2>log in to application</h2>
-          {loginForm()}
-        </div>
-      )}
-      {user && (
-        <div>
-          <h2>blogs</h2>
-          <p>
-            {user.name} logged in <button onClick={handleLogout}>logout</button>
-          </p>
+      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+        <h2>create new</h2>
+        <BlogForm createBlog={addBlog} />
+      </Togglable>
 
-          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-            <h2>create new</h2>
-            <BlogForm createBlog={addBlog} />
-          </Togglable>
-
-          {blogs
-            .slice()
-            .sort((a, b) => b.likes - a.likes)
-            .map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                updateBlog={updateBlog}
-                removeBlog={removeBlog}
-                user={user}
-              />
-            ))}
-        </div>
-      )}
+      {blogs
+        .slice()
+        .sort((a, b) => b.likes - a.likes)
+        .map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            updateBlog={updateBlog}
+            removeBlog={removeBlog}
+            user={user}
+          />
+        ))}
     </div>
+  )
+
+  return (
+    <Router>
+      <div>
+        {user && (
+          <div style={{ backgroundColor: '#eee', padding: '6px' }}>
+            <Link to="/">blogs</Link> <Link to="/users">users</Link> {user.name}{' '}
+            logged in <button onClick={handleLogout}>logout</button>
+          </div>
+        )}
+        <Notification />
+
+        {!user && (
+          <div>
+            <h2>log in to application</h2>
+            {loginForm()}
+          </div>
+        )}
+        {user && (
+          <Routes>
+            <Route path="/" element={blogsPage} />
+            <Route path="/blogs/:id" element={<Blog />} />
+            <Route path="/users/:id" element={<User />} />
+            <Route path="/users" element={<Users />} />
+          </Routes>
+        )}
+      </div>
+    </Router>
   )
 }
 
