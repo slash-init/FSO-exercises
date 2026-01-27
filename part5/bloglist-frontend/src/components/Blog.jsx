@@ -2,6 +2,18 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  TextField,
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+} from '@mui/material'
+import {
   updateBlog as updateBlogThunk,
   deleteBlog as deleteBlogThunk,
   addComment as addCommentThunk,
@@ -66,51 +78,77 @@ const Blog = ({ blog: propBlog }) => {
   // Compact list item view
   if (propBlog) {
     return (
-      <div style={blogStyle} className="blog">
-        <Link to={`/blogs/${blog.id}`}>
-          {blog.title} {blog.author}
-        </Link>
-      </div>
+      <Card variant="outlined" sx={{ mb: 1 }}>
+        <CardContent>
+          <Link to={`/blogs/${blog.id}`}>
+            {blog.title} {blog.author}
+          </Link>
+        </CardContent>
+      </Card>
     )
   }
 
   // Full blog view
   return (
-    <div className="blog">
-      <h2>
-        {blog.title} {blog.author}
-      </h2>
-      <div>
-        <a href={blog.url} target="_blank" rel="noopener noreferrer">
-          {blog.url}
-        </a>
-      </div>
-      <div>
-        {blog.likes} likes <button onClick={handleLike}>like</button>
-      </div>
-      <div>added by {blog.user?.name}</div>
-      {user && blog.user?.username === user.username && (
-        <div>
-          <button onClick={handleRemove}>remove</button>
-        </div>
-      )}
-      <div>
-        <h3>comments</h3>
-        <form onSubmit={handleAddComment}>
-          <input
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-            placeholder="add a comment"
-          />
-          <button type="submit">add comment</button>
-        </form>
-        <ul>
-          {blog.comments?.map((c, idx) => (
-            <li key={idx}>{c}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <Card variant="outlined" className="blog">
+      <CardContent>
+        <Typography variant="h5" component="div" gutterBottom>
+          {blog.title} {blog.author}
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 1.5 }}>
+          <a href={blog.url} target="_blank" rel="noopener noreferrer">
+            {blog.url}
+          </a>
+        </Typography>
+        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+          <Typography variant="body2">{blog.likes} likes</Typography>
+          <Button size="small" variant="contained" onClick={handleLike}>
+            like
+          </Button>
+        </Stack>
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          added by {blog.user?.name}
+        </Typography>
+        {user && blog.user?.username === user.username && (
+          <Button
+            size="small"
+            color="error"
+            variant="outlined"
+            onClick={handleRemove}
+            sx={{ mb: 2 }}
+          >
+            remove
+          </Button>
+        )}
+        <Stack spacing={1} sx={{ mt: 2 }}>
+          <Typography variant="h6">comments</Typography>
+          <Stack
+            component="form"
+            direction="row"
+            spacing={1}
+            onSubmit={handleAddComment}
+          >
+            <TextField
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              placeholder="add a comment"
+              size="small"
+              fullWidth
+            />
+            <Button type="submit" variant="contained" size="small">
+              add
+            </Button>
+          </Stack>
+          <List dense>
+            {blog.comments?.map((c, idx) => (
+              <ListItem key={idx} disableGutters>
+                <ListItemText primary={c} />
+              </ListItem>
+            ))}
+          </List>
+        </Stack>
+      </CardContent>
+    </Card>
   )
 }
 

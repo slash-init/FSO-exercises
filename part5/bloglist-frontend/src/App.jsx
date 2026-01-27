@@ -1,6 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  Container,
+  Stack,
+  TextField,
+  Typography,
+} from '@mui/material'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
@@ -97,71 +106,98 @@ const App = () => {
   }
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label>
-          username
-          <input
-            type="text"
-            value={username}
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          password
-          <input
-            type="password"
-            value={password}
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </label>
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Stack
+      component="form"
+      onSubmit={handleLogin}
+      spacing={2}
+      sx={{ maxWidth: 360 }}
+    >
+      <TextField
+        label="username"
+        value={username}
+        onChange={({ target }) => setUsername(target.value)}
+        size="small"
+        fullWidth
+      />
+      <TextField
+        label="password"
+        type="password"
+        value={password}
+        onChange={({ target }) => setPassword(target.value)}
+        size="small"
+        fullWidth
+      />
+      <Button variant="contained" type="submit">
+        login
+      </Button>
+    </Stack>
   )
 
   const blogsPage = (
-    <div>
-      <h2>blog app</h2>
+    <Stack spacing={3} sx={{ mt: 2 }}>
+      <Typography variant="h4" component="h1">
+        blog app
+      </Typography>
 
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <h2>create new</h2>
+        <Typography variant="h6" sx={{ mb: 1 }}>
+          create new
+        </Typography>
         <BlogForm createBlog={addBlog} />
       </Togglable>
 
-      {blogs
-        .slice()
-        .sort((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            updateBlog={updateBlog}
-            removeBlog={removeBlog}
-            user={user}
-          />
-        ))}
-    </div>
+      <Stack spacing={1}>
+        {blogs
+          .slice()
+          .sort((a, b) => b.likes - a.likes)
+          .map((blog) => (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              removeBlog={removeBlog}
+              user={user}
+            />
+          ))}
+      </Stack>
+    </Stack>
   )
 
   return (
     <Router>
-      <div>
-        {user && (
-          <div style={{ backgroundColor: '#eee', padding: '6px' }}>
-            <Link to="/">blogs</Link> <Link to="/users">users</Link> {user.name}{' '}
-            logged in <button onClick={handleLogout}>logout</button>
-          </div>
-        )}
+      <AppBar position="static" color="default" elevation={1}>
+        <Toolbar sx={{ gap: 2 }}>
+          <Button component={Link} to="/" variant="text">
+            blogs
+          </Button>
+          <Button component={Link} to="/users" variant="text">
+            users
+          </Button>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ ml: 'auto', alignItems: 'center' }}
+          >
+            {user && (
+              <Typography variant="body2">{user.name} logged in</Typography>
+            )}
+            {user && (
+              <Button variant="outlined" size="small" onClick={handleLogout}>
+                logout
+              </Button>
+            )}
+          </Stack>
+        </Toolbar>
+      </AppBar>
+
+      <Container sx={{ py: 3 }}>
         <Notification />
 
         {!user && (
-          <div>
-            <h2>log in to application</h2>
+          <Stack spacing={2}>
+            <Typography variant="h5">log in to application</Typography>
             {loginForm()}
-          </div>
+          </Stack>
         )}
         {user && (
           <Routes>
@@ -171,7 +207,7 @@ const App = () => {
             <Route path="/users" element={<Users />} />
           </Routes>
         )}
-      </div>
+      </Container>
     </Router>
   )
 }

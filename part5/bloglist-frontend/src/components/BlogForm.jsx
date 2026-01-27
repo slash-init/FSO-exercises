@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { TextField, Button, Stack } from '@mui/material'
 
 const BlogForm = ({ createBlog }) => {
   const [newBlog, setNewBlog] = useState({ title: '', author: '', url: '' })
@@ -22,42 +23,44 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-    <form onSubmit={addBlog}>
-      <div>
-        <label>
-          title:
-          <input
-            type="text"
-            name="title"
-            value={newBlog.title}
-            onChange={handleBlogChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          author:
-          <input
-            type="text"
-            name="author"
-            value={newBlog.author}
-            onChange={handleBlogChange}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          url:
-          <input
-            type="text"
-            name="url"
-            value={newBlog.url}
-            onChange={handleBlogChange}
-          />
-        </label>
-      </div>
-      <button type="submit">create</button>
-    </form>
+    <Stack
+      component="form"
+      spacing={2}
+      onSubmit={addBlog}
+      sx={{ maxWidth: 420 }}
+    >
+      <TextField
+        label="title"
+        name="title"
+        value={newBlog.title}
+        onChange={handleBlogChange}
+        size="small"
+        fullWidth
+      />
+      <TextField
+        label="author"
+        name="author"
+        value={newBlog.author}
+        onChange={handleBlogChange}
+        size="small"
+        fullWidth
+      />
+      <TextField
+        label="url"
+        name="url"
+        value={newBlog.url}
+        onChange={handleBlogChange}
+        size="small"
+        fullWidth
+      />
+      <Button
+        variant="contained"
+        type="submit"
+        sx={{ alignSelf: 'flex-start' }}
+      >
+        create
+      </Button>
+    </Stack>
   )
 }
 
