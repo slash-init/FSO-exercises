@@ -1,8 +1,10 @@
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   updateBlog as updateBlogThunk,
   deleteBlog as deleteBlogThunk,
+  addComment as addCommentThunk,
 } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 
@@ -11,6 +13,7 @@ const Blog = ({ blog: propBlog }) => {
   const { id } = useParams()
   const blogs = useSelector((state) => state.blogs)
   const user = useSelector((state) => state.user)
+  const [commentText, setCommentText] = useState('')
 
   const blog = propBlog ?? blogs.find((b) => b.id === id)
   if (!blog) return null
@@ -48,6 +51,18 @@ const Blog = ({ blog: propBlog }) => {
     }
   }
 
+  const handleAddComment = async (event) => {
+    event.preventDefault()
+    const trimmed = commentText.trim()
+    if (!trimmed) return
+    try {
+      await dispatch(addCommentThunk(blog.id, trimmed))
+      setCommentText('')
+    } catch (error) {
+      dispatch(showNotification('Failed to add comment', 'error'))
+    }
+  }
+
   // Compact list item view
   if (propBlog) {
     return (
@@ -79,6 +94,22 @@ const Blog = ({ blog: propBlog }) => {
           <button onClick={handleRemove}>remove</button>
         </div>
       )}
+      <div>
+        <h3>comments</h3>
+        <form onSubmit={handleAddComment}>
+          <input
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="add a comment"
+          />
+          <button type="submit">add comment</button>
+        </form>
+        <ul>
+          {blog.comments?.map((c, idx) => (
+            <li key={idx}>{c}</li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

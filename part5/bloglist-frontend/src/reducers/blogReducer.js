@@ -32,6 +32,12 @@ export const updateBlog = (id, updated) => async dispatch => {
   return saved
 }
 
+export const addComment = (id, comment) => async dispatch => {
+  const updated = await blogService.addComment(id, comment)
+  dispatch(replaceBlog(updated))
+  return updated
+}
+
 export const deleteBlog = id => async dispatch => {
   await blogService.remove(id)
   dispatch(removeBlog(id))

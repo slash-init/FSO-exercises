@@ -80,26 +80,17 @@ blogsRouter.put('/:id', async (request, response, next) => {
   }
 })
 
-blogsRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
+blogsRouter.post('/:id/comments', async (request, response, next) => {
   try {
-    const user = request.user
-    if (!user) {
-      return response.status(401).json({ error: 'token missing or invalid' })
-    }
-
     const blog = await Blog.findById(request.params.id)
     if (!blog) {
-      return response.status(204).end()  // Already deleted or never existed
+      return response.status(404).json({ error: 'blog not found' })
     }
-
-    if (blog.user.toString() !== user.id.toString()) {
-      return response.status(403).json({ error: 'only creator can delete' })
-    }
-
-    await Blog.findByIdAndDelete(request.params.id)
-
-    response.status(204).end()
-
+    
+    blog.comments = blog.comments.concat(request.body.comment)
+    const updated = await blog.save()
+    const populated = await Blog.findById(updated._id).populate('user', { username: 1, name: 1 })
+    response.status(201).json(populated)
   } catch (error) {
     next(error)
   }
