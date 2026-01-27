@@ -8,7 +8,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
-    marginBottom: 5
+    marginBottom: 5,
   }
 
   const handleLike = async () => {
@@ -17,7 +17,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
       likes: blog.likes + 1,
       author: blog.author,
       title: blog.title,
-      url: blog.url
+      url: blog.url,
     }
     await updateBlog(blog.id, updatedBlog)
   }
