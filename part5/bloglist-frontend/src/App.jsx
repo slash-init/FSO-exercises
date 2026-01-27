@@ -1,65 +1,68 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import {
+  initializeBlogs,
+  createBlog,
+  updateBlog as updateBlogThunk,
+  deleteBlog as deleteBlogThunk,
+} from './reducers/blogReducer'
+import { showNotification } from './reducers/notificationReducer'
+import { setUser, clearUser } from './reducers/userReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
+  const dispatch = useDispatch()
+  const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
   const [password, setPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
       blogService.setToken(user.token)
+      dispatch(setUser(user))
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs))
-  }, [])
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   const blogFormRef = useRef()
 
   const addBlog = async (blogObject) => {
     try {
       blogFormRef.current.toggleVisibility()
-      const returnedBlog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(returnedBlog))
-      setErrorMessage(`A new blog "${blogObject.title}" added`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      const returnedBlog = await dispatch(createBlog(blogObject))
+      dispatch(
+        showNotification(`A new blog "${blogObject.title}" added`, 'success')
+      )
+      return returnedBlog
     } catch (error) {
-      setErrorMessage('Failed to add blog')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(showNotification('Failed to add blog', 'error'))
     }
   }
 
   const updateBlog = async (id, updatedBlog) => {
     try {
-      const returnedBlog = await blogService.update(id, updatedBlog)
-      setBlogs(blogs.map((blog) => (blog.id !== id ? blog : returnedBlog)))
+      await dispatch(updateBlogThunk(id, updatedBlog))
     } catch (error) {
-      console.error('Error updating blog:', error)
+      dispatch(showNotification('Failed to update blog', 'error'))
     }
   }
 
   const removeBlog = async (id) => {
     try {
-      await blogService.remove(id)
-      setBlogs(blogs.filter((blog) => blog.id !== id))
+      await dispatch(deleteBlogThunk(id))
     } catch (err) {
-      console.error('Error removing blog: ', err)
+      dispatch(showNotification('Error removing blog', 'error'))
     }
   }
 
@@ -72,19 +75,16 @@ const App = () => {
       window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
       blogService.setToken(user.token)
-      setUser(user)
+      dispatch(setUser(user))
       setUsername('')
       setPassword('')
     } catch (error) {
       console.error('Login error:', error.response?.data || error.message)
-      setErrorMessage('wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(showNotification('wrong credentials', 'error'))
     }
   }
   const handleLogout = () => {
-    setUser(null)
+    dispatch(clearUser())
     setUsername('')
     setPassword('')
     window.localStorage.removeItem('loggedBlogappUser')
@@ -119,7 +119,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification />
 
       {!user && (
         <div>
@@ -140,6 +140,7 @@ const App = () => {
           </Togglable>
 
           {blogs
+            .slice()
             .sort((a, b) => b.likes - a.likes)
             .map((blog) => (
               <Blog
